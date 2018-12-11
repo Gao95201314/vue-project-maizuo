@@ -1,12 +1,12 @@
 // NavBar 组件
 <template>
   <ul class="nav-bar">
-    <router-link 
+    <router-link
     v-for="(item,index) in bars"
     :key="index"
-    :class="item.id" 
-    tag='li' 
-    :to="{name:item.id}" 
+    :class="item.id"
+    tag='li'
+    :to="{name:item.id}"
     active-class="z-act">
       <i class="img"></i>
       <span v-text="item.name">{{item.name}}</span>
@@ -42,6 +42,7 @@ export default {
 @import '../../styles/common/px2rem.scss';
 
 .nav-bar {
+  flex-shrink: 0;//不受兄弟挤压
   display: flex;
   height: px2rem(50);
   border-top: px2rem(1) solid #ededed;
@@ -60,7 +61,7 @@ export default {
       display: block;
       width:px2rem(21);
       height:px2rem(21);
-      background-size:100%; 
+      background-size:100%;
     }
     &.films {
     .img{
