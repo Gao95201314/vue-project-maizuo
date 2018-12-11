@@ -1,28 +1,40 @@
 // NavBar 组件
 <template>
   <ul class="nav-bar">
-    <li>
-      <img src="./images/films.png" alt="">
-      <span>电影</span>
-    </li>
-    <li>
-      <img src="./images/cinemas.png" alt="">
-      <span>影院</span>
-    </li>
-    <li>
-      <img src="./images/uugroupon.png" alt="">
-      <span>9.9拼团</span>
-    </li>
-    <li>
-      <img src="./images/center.png" alt="">
-      <span>我的</span>
-    </li>
+    <router-link 
+    v-for="(item,index) in bars"
+    :key="index"
+    :class="item.id" 
+    tag='li' 
+    :to="{name:item.id}" 
+    active-class="z-act">
+      <i class="img"></i>
+      <span v-text="item.name">{{item.name}}</span>
+    </router-link>
   </ul>
 </template>
 
 <script>
 export default {
-  name: 'NavBar' // 也可以不写
+  name: 'NavBar', // 也可以不写
+  data () {
+    return {
+       bars:[
+         {
+           id:'films',
+           name:'电影'
+         },
+         {
+           id:'cinemas',
+           name:'影院'
+         },
+         {
+           id:'center',
+           name:'个人中心'
+         },
+       ]
+    }
+  }
 }
 </script>
 
@@ -33,7 +45,6 @@ export default {
   display: flex;
   height: px2rem(50);
   border-top: px2rem(1) solid #ededed;
-  background: red;
   img {
     width: px2rem(21);
     height: px2rem(21);
@@ -45,6 +56,40 @@ export default {
     justify-content: center;
     align-items: center;
     font-size: px2rem(12);
+    .img{
+      display: block;
+      width:px2rem(21);
+      height:px2rem(21);
+      background-size:100%; 
+    }
+    &.films {
+    .img{
+      background-image: url('./images/films.png');
+    }
+    &.z-act .img{
+       background-image: url('./images/films_on.png');
+    }
+    }
+   &.cinemas {
+    .img{
+      background-image: url('./images/cinemas.png');
+    }
+    &.z-act .img{
+       background-image: url('./images/cinemas_on.png');
+    }
+    }
+    &.center {
+    .img{
+      background-image: url('./images/center.png');
+    }
+    &.z-act .img{
+       background-image: url('./images/center_on.png');
+    }
+    }
+    //继承并有这个z-act类就显示高亮
+    &.z-act{
+      color:#ff5f16;
+    }
   }
 }
 </style>
