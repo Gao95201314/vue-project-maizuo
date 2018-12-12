@@ -90,8 +90,9 @@ export default {
     // 当前城市
     curCity:'',
     films:[],
-    pageSize:5,
-    pageNum:1,
+    pageSize:5, // 当前页码
+    pageNum:1, // 每页条数
+    totalPage:0// 总页数
     }
   },
   methods: {
@@ -110,12 +111,12 @@ export default {
            pageSize:this.pageSize,
            pageNum:this.pageNum
       }
-    }
-      ).then((response) => {
+    }).then((response) => {
         //ps:res不单单包含后台的数据，还有一些个额外的东西
-        console.log(response);
+        // console.log(response);
         let result=response.data;
-        if(result.code===0){
+        console.log(result);
+        if(result.code === 0){
            this.films=result.data.films;
         }else{
             alert(result.msg);
