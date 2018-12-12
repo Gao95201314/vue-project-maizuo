@@ -27,6 +27,7 @@
           <div class="buy">购票</div>
         </li>
       </ul>
+      <div class="load-more" @click="loadMore">{{loadMoreText}}</div>
     </div>
  <!-- /list -->
 </template>
@@ -38,15 +39,16 @@ export default {
   data () {
     return {
     films:[],
-    pageSize:5, // 当前页码
-    pageNum:1, // 每页条数
+    loadMoreText:'点击，加载下一页',
+    pageSize:5, // 每页条数
+    pageNum:1, // 当前页码
     totalPage:0// 总页数
     }
   },
   methods:{
       //获取影片
   getFilms () {
-    axios.get('/api/film/list',{
+ axios.get('/api/film/list',{
       params:{
            pageSize:this.pageSize,
            pageNum:this.pageNum,
@@ -56,9 +58,21 @@ export default {
         //ps:response不单单包含后台的数据，还有一些个额外的东西
         // console.log(response);
         let result=response.data;
-        console.log(result);
+        // console.log(result);
+        //一共多少页
+        this.totalPage = Math.ceil(result.data.total/this.pageSize);
+        console.log(this.totalPage);
+        //判断是否还有更多页
+        if (this.pageNum>=this.totalPage) {
+          //没有更多页面
+          this.loadMoreText='别拉了，没有更多了';
+        }
+
         if (result.code === 0) {
-           this.films=result.data.films;
+          //  this.films=result.data.films;
+          //数组的追加
+          // this.films=this.films.push(...result.data.films);
+          this.films=this.films.concat(result.data.films);
         } else {
             alert(result.msg);
         }
@@ -71,10 +85,18 @@ export default {
   actorsList (list) {
       let arr=[];
       //如果没有演员，就要判断，否则会报错
+      if (list) {
         arr=list.map(item => { // map映射 返回一个满足条件的数组
           return item.name;
         });
+      }
       return arr.join(' ');
+     },
+     loadMore () {
+       if (this.pageNum<this.totalPage) {
+         this.pageNum++;
+         this.getFilms();
+       }
      }
   },
     created () {
@@ -145,5 +167,10 @@ export default {
     text-align: center;
     border-radius: px2rem(4);
   }
+}
+.load-more{
+  height:px2rem(30);
+  line-height:px2rem(30);
+  text-align: center;
 }
 </style>

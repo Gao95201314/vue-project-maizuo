@@ -125,6 +125,9 @@ export default {
     .swiper-pagination-bullet-active{
         background: pink;
     }
+    img{
+      width: 100%;
+    }
 }
 .city-fixed {
   position: absolute;
