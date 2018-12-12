@@ -88,8 +88,10 @@ export default {
   data () {
     return {
     // 当前城市
-    curCity:' ',
-    films:[ ]
+    curCity:'',
+    films:[],
+    pageSize:5,
+    pageNum:1,
     }
   },
   methods: {
@@ -100,15 +102,20 @@ export default {
   myCity.get((result) => {
    this.curCity=result.name;
   });
-  },
+},
   //获取影片
   getFilms () {
-    axios.get('/static/api/films.json')
-    .then((response) => {
+    axios.get('/api/film/list',{
+      params:{
+           pageSize:this.pageSize,
+           pageNum:this.pageNum
+      }
+    }
+      ).then((response) => {
         //ps:res不单单包含后台的数据，还有一些个额外的东西
         console.log(response);
         let result=response.data;
-        if(result.status===0){
+        if(result.code===0){
            this.films=result.data.films;
         }else{
             alert(result.msg);
@@ -121,14 +128,16 @@ export default {
 */
   actorsList (list) {
       let arr=[];
-      arr=list.map(item => {
+      //如果没有演员，就要判断，否则会报错
+      if(list){
+        arr=list.map(item => {  // mmap映射 返回一个满足条件的数组
           return item.name;
       })
-      return arr.join(' ');
-
   }
-
+   return arr.join(' ');
+  }
   },
+
   created () {
   this.getCityName();
   this.getFilms();
