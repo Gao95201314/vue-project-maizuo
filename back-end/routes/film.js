@@ -74,6 +74,7 @@ router.get('/list', function(req, res) {
           })
         }
       ], function(err, result) {
+        console.log(result);
         if (err) {
           console.log(err);
           res.json({
@@ -81,6 +82,7 @@ router.get('/list', function(req, res) {
             msg: '错误'
           })
         } else {
+          // console.log(result);
           res.json({
             code: 0,
             msg: 'OK',
@@ -92,8 +94,6 @@ router.get('/list', function(req, res) {
         }
         client.close();
       })
-
-
     }
   })
 })
