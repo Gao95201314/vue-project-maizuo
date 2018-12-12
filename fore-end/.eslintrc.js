@@ -29,13 +29,13 @@ module.exports = {
     // 在此配置我们自己的规则
     'no-new': 'off',
     'semi': 'off',
-    /* 'no-trailing-spaces':'off',
+    'no-trailing-spaces':'off',
     'key-spacing':'off',
     'indent':'off',
     'comma-spacing':'off',
     'eol-last':'off',
     'spaced-comment':'off',
     'comma-dangle':'off',
-    'space-infix-ops':'off',  */
+    'space-infix-ops':'off',
   }
 }

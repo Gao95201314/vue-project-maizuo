@@ -80,28 +80,28 @@
 </template>
 
 <script>
-//引入swiper
+// 引入swiper
 import Swiper from 'swiper';
 import axios from 'axios';
 export default {
   name: 'Films',
   data () {
-      return {
-          //当前城市
-         curCity:'',
-         films:[]
-      }
+    return {
+    // 当前城市
+    curCity:' ',
+    films:[ ]
+    }
   },
-  methods:{
-  //根据百度地图的api获取当前的城市
-  getCityName () {
-  /* eslint-disable*/
+  methods: {
+  // 根据百度地图的api获取当前的城市
+    getCityName () {
+    /* eslint-disable*/
   let myCity =new BMap.LocalCity();
   myCity.get((result) => {
    this.curCity=result.name;
   });
   },
-//   获取影片
+  //获取影片
   getFilms () {
     axios.get('/static/api/films.json')
     .then((response) => {
@@ -135,9 +135,9 @@ export default {
   },
   mounted () {
       new Swiper('.swiper-container',{
-          //无缝轮播
+          // 无缝轮播
            loop: true,
-          //自动轮播
+          // 自动轮播
            autoplay: {
            delay: 2000,
            stopOnLastSlide: false,

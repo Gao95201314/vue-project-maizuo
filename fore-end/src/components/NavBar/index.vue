@@ -19,7 +19,7 @@ export default {
   name: 'NavBar', // 也可以不写
   data () {
     return {
-       bars:[
+    bars:[
          {
            id:'films',
            name:'电影'
