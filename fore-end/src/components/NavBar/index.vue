@@ -6,7 +6,7 @@
     :key="index"
     :class="item.id"
     tag='li'
-    :to="{name:item.id}"
+    :to="item.path"
     active-class="z-act">
       <i class="img"></i>
       <span v-text="item.name">{{item.name}}</span>
@@ -22,14 +22,17 @@ export default {
     bars:[
          {
            id:'films',
+           path:'/films/nowPlaying',
            name:'电影'
          },
          {
            id:'cinemas',
+           path:'/cinemas',
            name:'影院'
          },
          {
            id:'center',
+           path:'/center',
            name:'个人中心'
          },
        ]
