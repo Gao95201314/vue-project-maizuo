@@ -91,7 +91,8 @@ const router = new VueRouter({
             } else {
               // 注意，如果需要实现，拦截到登陆页面之后，登录成功回跳到那个页面。
               //localStorage.setItem('myNeedPage','/user/card');
-              next({path:'/user/login',query: {
+              next({path:'/user/login', 
+              query: {
                 redirect:to.fullPath
               }
             });
