@@ -4,9 +4,10 @@
       <ul>
         <li
           v-for="(item, index) in films"
-          :key="index">
+          :key="index"
+          @click="goDetail(item.filmId)">
           <div class="img">
-            <img :src="item.poster" alt="">
+            <img :src="item.poster" alt="" >
           </div>
           <div class="info">
             <div>
@@ -97,6 +98,14 @@ export default {
          this.pageNum++;
          this.getFilms();
        }
+     },
+     goDetail (id) {
+       this.$router.push({
+         name:'filmDetail',
+         params:{
+           filmId:id
+         }
+       })
      }
   },
     created () {
@@ -172,5 +181,6 @@ export default {
   height:px2rem(30);
   line-height:px2rem(30);
   text-align: center;
+  cursor: pointer;
 }
 </style>

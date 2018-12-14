@@ -175,5 +175,6 @@ export default {
   height:px2rem(30);
   line-height:px2rem(30);
   text-align: center;
+  cursor: pointer;
 }
 </style>
