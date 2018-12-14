@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <router-link to="/film/9898">我要看猫王</router-link>
+    <router-link to="/filmDetail/9898">我要看猫王</router-link>
   </div>
 </template>
 
@@ -56,7 +56,7 @@ export default {
     getFilmDetail () {
       setTimeout(() => {
         if (this.$route.params.filmId === 4469) {
-          this.filmName = '海王';
+          this.filmName = '狗王';
         } else {
           this.filmName = '猫王';
         }
@@ -67,6 +67,18 @@ export default {
   created () {
     // let filmId = this.$route.params.filmId;
     this.getFilmDetail();
+  },
+  beforeRouteEnter (to,from,next) {
+    console.log('进入详情页面');
+    next();
+  },
+  beforeRouteUpdate (to,from,next) {
+    console.log('详情页组件有更新，会进来');
+    next();
+  },
+  beforeRouteLeave (to,from,next) {
+    console.log('详情页离开之前，会调用');
+    next();
   }
 }
 </script>

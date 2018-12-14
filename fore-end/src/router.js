@@ -1,15 +1,17 @@
 // 路由相关的代码
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 
 // 引入路由组件
-import Home from './views/Home.vue';
-import Films from './views/Films.vue';
-import NowPaly from './components/NowPlay/index.vue';
-import SoonPlay from './components/SoonPlay';
-import Cinema from './views/Cinema.vue';
-import Center from './views/Center.vue';
-import FilmDetail from './views/FilmDetail.vue';
+// import FilmDetail from './views/FilmDetail.vue';
+// import Home from './views/Home.vue';
+// import Films from './views/Films.vue';
+// import NowPaly from './components/NowPlay/index.vue';
+// import SoonPlay from './components/SoonPlay';
+// import Cinema from './views/Cinema.vue';
+// import Center from './views/Center.vue';
 
 // 插件安装
 Vue.use(VueRouter);
@@ -18,23 +20,30 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      component: Home,
+      component: () => import('./views/Home'),
       children: [
+        {
+          path:'',
+          redirect:'/films/nowPlaying'
+        },
         {
           // 首页
           path: 'films',
-          name: 'films',
-          component: Films,
+          component: () => import('./views/Films.vue'),
           children: [
+            {
+              path:'',
+              redirect:'/films/nowPlaying'
+            },
             {
               path: 'nowPlaying',
               name: 'nowPlaying',
-              component: NowPaly
+              component: () => import('./components/NowPlay/index.vue')
             },
             {
               path: 'comingSoon',
               name: 'comingSoon',
-              component: SoonPlay
+              component: () => import('./components/SoonPlay/index.vue')
             }
           ]
         },
@@ -42,13 +51,13 @@ const router = new VueRouter({
           // 影院页
           path: 'cinemas',
           name: 'cinemas',
-          component: Cinema
+          component: () => import('./views/Cinema')
         },
         {
           // 个人中心页
           path: 'center',
           name: 'center',
-          component: Center
+          component: () => import('./views/Center.vue')
         }
       ]
     },
@@ -56,14 +65,58 @@ const router = new VueRouter({
       // 详情页面
       path: '/filmDetail/:filmId',
       name: 'filmDetail',
-      component: FilmDetail
+      component: () => import('./views/FilmDetail.vue'),
+      brforeEnter (to,from,next) {
+        console.log('我是一个路由独享的钩子函数');
+        next();
+      }
     },
     {
-      path: '',
+      //用户
+      path:'/user',
+      component: {
+        template:`
+        <div>
+           <router-view></router-view>
+        </div>
+        `
+      },
+      children: [
+        {
+          path:'card',
+          component: () => import('./views/Card.vue'),
+          beforeEnter (to,from,next) {
+            if (localStorage.getItem('username')) {
+              next();
+            } else {
+              // 注意，如果需要实现，拦截到登陆页面之后，登录成功回跳到那个页面。
+              //localStorage.setItem('myNeedPage','/user/card');
+              next({path:'/user/login',query: {
+                redirect:to.fullPath
+              }
+            });
+            }
+          }
+        },
+        {
+          path:'login',
+          component: () => import('./views/Login.vue')    
+        },
+      ]
+    },
+    {
+      path: '*',
       redirect: '/films/nowPlaying'
     }
   ]
 });
 
+router.beforeEach((to,from,next) => {
+  NProgress.start();
+  next();
+})
+router.afterEach((to,from) => {
+  NProgress.done();
+})
 // 需要暴露
 export default router;
