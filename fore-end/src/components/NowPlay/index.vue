@@ -25,7 +25,9 @@
               <span class="label">{{ item.nation }} | {{ item.runtime }}分钟</span>
             </div>
           </div>
-          <div class="buy">购票</div>
+          <button @click.stop="addCard(item,index)">-</button>
+          <input type="text" disabled :value="item.num">
+          <button @click.stop="addFilm(item)">+</button>
         </li>
       </ul>
       <div class="load-more" @click="loadMore">{{loadMoreText}}</div>
@@ -35,6 +37,7 @@
 
 <script>
 import axios from 'axios';
+import { mapMutations } from 'vuex';
 export default {
   name:'NowPlay',
   data () {
@@ -47,6 +50,9 @@ export default {
     }
   },
   methods:{
+    ...mapMutations([
+      'addFilm'
+    ]),
       //获取影片
   getFilms () {
  axios.get('/api/film/list',{
@@ -73,6 +79,9 @@ export default {
           //  this.films=result.data.films;
           //数组的追加
           // this.films=this.films.push(...result.data.films);
+          // for (var i=0; i < result.data.films.length; i++) {
+          //   result.data.films[i].num=0;
+          // }
           this.films=this.films.concat(result.data.films);
         } else {
             alert(result.msg);
@@ -106,7 +115,18 @@ export default {
            filmId:id
          }
        })
-     }
+     },
+    //  addCard (item,index) {
+    //   //  item.num++;
+    //   var num = item.num || 0;
+    //  this.$set(this.films[index], 'num', ++num);
+    //  this.$store.commit('addFilm',{
+    //    filmId:item.filmId,
+    //    filmName:item.name,
+    //    filmPrice:Math.random(10,20),
+    //    filmNum:1
+    //  })
+    //  }
   },
     created () {
     this.getFilms();
@@ -163,16 +183,22 @@ export default {
       color: #ffb232;
     }
   }
-
-  .buy {
+  input{
+    width: px2rem(50);
+    line-height: px2rem(50);
+    height: px2rem(48);
+    margin-top:px2rem(22);
+    border:none;
+    text-align: center;
+  }
+  button {
     flex-shrink: 0;
     align-self: center;
-    width: px2rem(50);
-    height: px2rem(26);
-    line-height: px2rem(26);
+    width: px2rem(25);
+    height: px2rem(50);
     font-size: px2rem(14);
     color: #ff5f16;
-    border: px2rem(1) solid #ff5f16;
+    border: px2rem(1);
     text-align: center;
     border-radius: px2rem(4);
   }

@@ -1,26 +1,19 @@
 <template>
     <div class="cinemas-list">
         <h1>我是影院</h1>
-        <!-- <h2>我当前的定位城市是:{{store.state.curCity}}</h2>
-        <h2>我当前的定位城市是:{{this.$store.state.curCity}}</h2> -->
-        <h2>我当前的定位城市是:{{this.$store.state.curCity}}</h2> 
-        <!-- <h2>我的爱好是:{{myLove}}</h2>  -->
-        <!-- <h2>{{projectName}}</h2>
-        <h2></h2> -->
-        <button @click="change">修改 store 里面的 curCity</button>
+        <ul>
+          <li v-for="(item,index) in myLoveBooks" :key="index">
+            {{item.name}}
+          </li>
+        </ul>
     </div>
 </template>
 
 <script>
-import store from '../store';
-import {mapState} from 'vuex';
+// import store from '../store';
+import { mapGetters } from 'vuex';
 export default {
   name: 'Cinemas',
-  data () {
-    return {
-      store: store
-    }
-  },
   //计算属性的方式获取state里面的值
   // computed:{
   //   curCity () {
@@ -42,15 +35,23 @@ export default {
   //     return state.myLove+'很修身'
   //   }
   // })
-  methods: {
-    change () {
-      //操作store里面的mutations
-      //得提交mutations
-      this.$store.commit('changeCurCity',{
-        'cityName':'中山',
-        'quName':'宝安区'
-      });
-    }
+  // methods: {
+  //   change () {
+  //     //操作store里面的mutations
+  //     //得提交mutations
+  //     this.$store.commit('changeCurCity',{
+  //       'cityName':'中山',
+  //       'quName':'宝安区'
+  //     });
+  //   }
+  // }
+  computed: {
+    ...mapGetters([
+      'myLoveBooks'
+    ]),
+  },
+  mounted () {
+     console.log(this.$store.getters.myLoveBooks);
   }
 }
 </script>
