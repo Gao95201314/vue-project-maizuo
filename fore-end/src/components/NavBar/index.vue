@@ -9,7 +9,7 @@
     :to="item.path"
     active-class="z-act">
       <i class="img"></i>
-      <span v-text="item.name">{{item.name}}</span>
+      <span v-text="item.name"></span>
     </router-link>
   </ul>
 </template>
@@ -29,6 +29,11 @@ export default {
            id:'cinemas',
            path:'/cinemas',
            name:'影院'
+         },
+         {
+           id:'shopcart',
+           path:'/shopcart',
+           name:'购物车'
          },
          {
            id:'center',
@@ -88,6 +93,14 @@ export default {
     }
     &.z-act .img{
        background-image: url('./images/center_on.png');
+    }
+    }
+    &.shopcart {
+    .img{
+      background-image: url('./images/shopcart.png');
+    }
+    &.z-act .img{
+       background-image: url('./images/shopcart_on.png');
     }
     }
     //继承并有这个z-act类就显示高亮

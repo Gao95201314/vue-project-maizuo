@@ -30,7 +30,7 @@
    <!-- 定位城市 -->
    <div class="city-fixed">
       <span>{{ curCity }}</span>
-      <i class="iconfont icon-xiala"></i>
+      <i class="iconfont icon-xiajiantou"></i>
     </div>
    <!-- 定位城市 -->
     </div>

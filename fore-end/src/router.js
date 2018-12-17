@@ -54,6 +54,12 @@ const router = new VueRouter({
           component: () => import('./views/Cinema')
         },
         {
+          // 购物车
+          path: 'shopcart',
+          name: 'shopcart',
+          component: () => import('./views/Shopcard')
+        },
+        {
           // 个人中心页
           path: 'center',
           name: 'center',
@@ -85,6 +91,40 @@ const router = new VueRouter({
         {
           path:'card',
           component: () => import('./views/Card.vue'),
+          beforeEnter (to,from,next) {
+            if (localStorage.getItem('username')) {
+              next();
+            } else {
+              // 注意，如果需要实现，拦截到登陆页面之后，登录成功回跳到那个页面。
+              //localStorage.setItem('myNeedPage','/user/card');
+              next({path:'/user/login', 
+              query: {
+                redirect:to.fullPath
+              }
+            });
+            }
+          }
+        },
+        {
+          path:'account',
+          component: () => import('./views/Account.vue'),
+          beforeEnter (to,from,next) {
+            if (localStorage.getItem('username')) {
+              next();
+            } else {
+              // 注意，如果需要实现，拦截到登陆页面之后，登录成功回跳到那个页面。
+              //localStorage.setItem('myNeedPage','/user/card');
+              next({path:'/user/login', 
+              query: {
+                redirect:to.fullPath
+              }
+            });
+            }
+          }
+        },
+        {
+          path:'set',
+          component: () => import('./views/Set.vue'),
           beforeEnter (to,from,next) {
             if (localStorage.getItem('username')) {
               next();

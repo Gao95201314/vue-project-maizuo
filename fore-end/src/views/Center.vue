@@ -29,8 +29,8 @@
             <i class="iconfont icon-20151209tubiaolianxizhuanhuan09-copy"></i>
           </div>
         </router-link>
-        <div class="balace">
-          <div class="list">
+        <router-link class="balace" tag="div" to="/user/account">
+          <div class="list" >
             <i style="color: red;" class="iconfont icon-yue"></i>
             <span>余额</span>
           </div>
@@ -38,8 +38,8 @@
             <p>￥0</p>
             <i class="iconfont icon-20151209tubiaolianxizhuanhuan09-copy"></i>
           </div>
-        </div>
-        <div class="set">
+        </router-link>
+        <router-link class="set" tag="div" to="/user/set">
           <div class="list">
             <i style="color: rgb(15, 235, 52);" class="iconfont icon-shezhi2"></i>
             <span>设置</span>
@@ -47,7 +47,7 @@
           <div class="list1">
             <i class="iconfont icon-20151209tubiaolianxizhuanhuan09-copy"></i>
           </div>
-        </div>
+        </router-link>
       </div>
     </main>
   </div>

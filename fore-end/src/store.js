@@ -31,7 +31,7 @@ const store =new Vuex.Store({
   //对当前的state里面某个一个状态做派生。类似计算属性
   getters: {
     myLoveBooks (state,getters) {
-      console.log(getters);
+      // console.log(getters);
       var arr =state.books.filter(item => {
         return item.isLove;
       });

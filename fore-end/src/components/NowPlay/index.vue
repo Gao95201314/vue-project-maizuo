@@ -74,13 +74,12 @@ export default {
         // console.log(result);
         //一共多少页
         this.totalPage = Math.ceil(result.data.total/this.pageSize);
-        console.log(this.totalPage);
+        // console.log(this.totalPage);
         //判断是否还有更多页
         if (this.pageNum>=this.totalPage) {
           //没有更多页面
           this.loadMoreText='别拉了，没有更多了';
         }
-
         if (result.code === 0) {
           //  this.films=result.data.films;
           //数组的追加

@@ -2,14 +2,17 @@
 <div class="card">
     <div class="haed">
       <router-link class="iconfont icon-shouye" tag="i" to="/films/nowPlaying"></router-link>
-      <span>卖座卡</span>
+      <span>余额明细</span>
       <span class="span1"></span>
   </div>
-  <div class="center">
-      <div class="img"><img src="../images/card.png" alt=""></div>
-      <h3>你还没有卖座卡哟</h3>
-      <p class="activecard">激活新卡</p>
-    </div>
+  <div class="account">
+     <p>当前余额</p>
+    <span>￥</span><span class="span1">0.00</span>
+  </div>
+  <div class="tu">
+    <img src="../images/account.png" alt="">
+    <p>暂无余额使用明细</p>
+  </div>
 </div>
 </template>
 
@@ -32,7 +35,7 @@ export default {
     line-height: px2rem(50);
   }
   span{
-    flex:2;
+    flex:3;
     width:px2rem(100);
     line-height: px2rem(50);
     text-align: center;
@@ -41,34 +44,27 @@ export default {
   .span1{
     flex:1;
   }
-  border-bottom: 1px solid #c6c6c6;
 }
-.center{
-  width:px2rem(200);
+.account{
+  width:100%;
+  height:px2rem(200);
+  background: orangered;
+  text-align: center;
+  color:white;
+  padding-top:px2rem(80);
+  span{
+    font-size: px2rem(30);
+  }
+}
+.tu{
+  text-align: center;
   margin-top:px2rem(100);
-  margin-left:px2rem(90);
-  .img{
+   margin-left:px2rem(90);
     width:px2rem(200);
     height:px2rem(200);
-    background: teal;
-    img{
-      width: 100%;
-      height:100%;
-    }
-  }
-  h3{
-    font-size: px2rem(16);
-    text-align: center;
-    color:#cccccc;
-    margin-bottom: px2rem(10);
-  }
-  .activecard{
-    border:1px solid orange;
-    text-align: center;
-    font-size:px2rem(17);
-    height:px2rem(50);
-    color:orange;
-    line-height: px2rem(50);
+  img{
+    width:px2rem(100);
+    height:px2rem(100);
   }
 }
 }

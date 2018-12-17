@@ -1,95 +1,102 @@
 <template>
+<div class="main">
   <div class="film-detail">
     <div class="film-poster">
-      <img src="https://pic.maizuo.com/usr/movie/f713d0f85512087679ac951e8565d187.jpg?x-oss-process=image/quality,Q_70" alt="">
+      <img :src="films.poster" alt="">
     </div>
-
     <div class="film-detail">
       <div class="col">
         <div class="film-name">
-          <span class="name">{{ filmName }}</span>
+          <span class="name">{{films.name}}</span>
           <span class="item">3D</span>
         </div>
         <div class="film-grade">
-          <span class="grade">7.2</span>
+          <span class="grade">{{films.grade}}</span>
           <span class="grade-text">分</span>
         </div>
       </div>
-
-      <div class="film-category grey-text">动作 | 奇幻 | 冒险</div>
+      <div class="film-category grey-text">{{films.category}}</div>
       <div class="film-premiere-time grey-text">
-        2018-12-07上映
+        {{new Date(films.premiereAt*1000)}}上映
       </div>
       <div class="film-nation-runtime grey-text">
-        美国   澳大利亚  | 143分钟
+        {{films.nation}}  | {{films.runtime}}分钟
       </div>
       <div class="film-synopsis grey-text">
-        本片由杰森·莫玛领衔主演，讲述半人半亚特兰蒂斯血统的亚瑟·库瑞踏上永生难忘的征途——他不但需要直面自己的特殊身世，更不得不面对生而为王的考验：自己究竟能否配得上“海王”之名。
+       {{films.synopsis}}
       </div>
       <div class="toggle">
         <i class="iconfont icon-xiala"></i>
       </div>
     </div>
-
-    <router-link to="/filmDetail/9898">我要看猫王</router-link>
+    <div class="list">
+       <h2>演职人员</h2>
+      <ul>
+        <li
+        v-for="(item, index) in actorList" :key="index">
+        <div class="film-actor">
+        <img :src="item.avatarAddress" alt="">
+        <p>{{item.name}}</p>
+        </div>
+        </li>
+      </ul>
+    </div>
   </div>
+  <div class="selectMail">
+      <p>选座购票</p>
+    </div>
+    </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'FilmDetail',
-
   data () {
     return {
-      filmName: ''
-    }
+      films: {},
+      actorList:[]
+    };
   },
-
-  watch: {
-    $route (newVal, oldVal) {
-      // $route 发生变化，我就请求后台数据
-      this.getFilmDetail();
-    }
-  },
-
   methods: {
     getFilmDetail () {
-      setTimeout(() => {
-        if (this.$route.params.filmId === 4469) {
-          this.filmName = '狗王';
-        } else {
-          this.filmName = '猫王';
-        }
-      }, 2000);
-    }
+      axios.get('/static/api/films.json').then(response => {
+          let result = response.data;
+          let filmId = Number(this.$route.params.filmId);
+          // console.log(filmId);
+          let index = -1;
+          let isZai = result.some((item, i) => {
+            if (item.filmId===filmId) {
+              index = i;
+              return true;
+            }
+            return false;
+          });
+          if (isZai) {
+            let filmObj=result[index];
+            this.films=filmObj;
+            this.actorList=filmObj.actors;
+            console.log(this.actorList);
+          }
+        });
+    },
   },
-
   created () {
     // let filmId = this.$route.params.filmId;
     this.getFilmDetail();
-  },
-  beforeRouteEnter (to,from,next) {
-    console.log('进入详情页面');
-    next();
-  },
-  beforeRouteUpdate (to,from,next) {
-    console.log('详情页组件有更新，会进来');
-    next();
-  },
-  beforeRouteLeave (to,from,next) {
-    console.log('详情页离开之前，会调用');
-    next();
   }
-}
+};
 </script>
 
 <style lang="scss">
-@import '@/styles/common/px2rem.scss';
-
+@import "@/styles/common/px2rem.scss";
+.main{
+  display: flex;
+  flex-direction: column;
+  flex:1;
 .film-detail {
   flex: 1;
   overflow-y: auto;
-
   .film-poster {
     height: px2rem(210);
     img {
@@ -170,5 +177,44 @@ export default {
       }
     }
   }
+  .list {
+    width: px2rem(750);
+    h2{
+    margin-left:px2rem(10);
+    }
+    ul{
+      width: px2rem(750);
+      overflow:auto;
+    li{
+    margin-top:px2rem(10);
+    float:left;
+  }
+    }
+  .film-actor{
+    width:px2rem(80);
+    height:px2rem(80);
+    margin-left:px2rem(10);
+    img {
+      width:100%;
+    }
+    p{
+      text-align: center;
+      font-size: px2rem(14);
+    }
+  }
+  }
 }
+.selectMail{
+    width: 100%;
+    height:px2rem(40);
+    background: #ffb232;
+    p{
+      text-align: center;
+      line-height: px2rem(40);
+      font-size: px2rem(17);
+      color:#fff;
+    }
+  }
+}
+
 </style>
