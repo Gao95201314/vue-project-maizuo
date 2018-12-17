@@ -25,8 +25,8 @@
               <span class="label">{{ item.nation }} | {{ item.runtime }}分钟</span>
             </div>
           </div>
-          <button @click.stop="addCard(item,index)">-</button>
-          <input type="text" disabled :value="item.num">
+          <button @click.stop="reduceFilm(item)">-</button>
+          <input type="text" disabled :value="findNum(item)">
           <button @click.stop="addFilm(item)">+</button>
         </li>
       </ul>
@@ -37,7 +37,7 @@
 
 <script>
 import axios from 'axios';
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 export default {
   name:'NowPlay',
   data () {
@@ -49,9 +49,15 @@ export default {
     totalPage:0// 总页数
     }
   },
+  computed:{
+    ...mapState([
+      'filmsCard'
+    ])
+  },
   methods:{
     ...mapMutations([
-      'addFilm'
+      'addFilm',
+      'reduceFilm'
     ]),
       //获取影片
   getFilms () {
@@ -108,6 +114,10 @@ export default {
          this.getFilms();
        }
      },
+     /**
+     * 去详情页面
+     * @param {String} id 影片ID
+     */
      goDetail (id) {
        this.$router.push({
          name:'filmDetail',
@@ -116,6 +126,21 @@ export default {
          }
        })
      },
+     /**
+     * 查找当前这个电影，在购物车中的数量
+     * @param {Object} item 当前电影
+     */
+    findNum (item) {
+      let filmId=item.filmId;
+      //判断当前这个filmId在store中的filmsCard中存在不？
+      let num=0;
+      this.filmsCard.forEach(item => {
+        if (item.filmId===filmId) {
+          num=item.filmNum;
+        }
+      });
+      return num;
+    }
     //  addCard (item,index) {
     //   //  item.num++;
     //   var num = item.num || 0;

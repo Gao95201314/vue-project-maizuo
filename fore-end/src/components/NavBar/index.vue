@@ -22,7 +22,7 @@ export default {
     bars:[
          {
            id:'films',
-           path:'/films/nowPlaying',
+           path:'/films',
            name:'电影'
          },
          {

@@ -26,7 +26,7 @@ const store =new Vuex.Store({
     ],
     maxLoveNum:1,
     //购物车数据
-    filmsCard:[],
+    filmsCard:localStorage.getItem('filmsCard') ? JSON.parse(localStorage.getItem('filmsCard')):[],
   }, 
   //对当前的state里面某个一个状态做派生。类似计算属性
   getters: {
@@ -59,9 +59,8 @@ const store =new Vuex.Store({
     if (item.filmId===filmId) {
       index=i;
       return true;
-    } else {
-      return false;
     }
+      return false;
     });
     if (isZai) {
     state.filmsCard[index].filmNum++;  
@@ -73,6 +72,35 @@ const store =new Vuex.Store({
         filmNum:1
       });
     }
+    //最后将数据写入到localsrorage
+    localStorage.setItem('filmsCard',JSON.stringify(state.filmsCard));
+  },
+    /**
+     * 删除购物车
+     * @param {*} state
+     * @param {*} payload
+     */
+  reduceFilm (state,payload) {
+    let index=-1;
+    state.filmsCard.forEach((item,i) => {
+      if (payload.filmId===item.filmId) {
+        index=i;
+      }
+    })
+    // 判断是否有
+    if (index>-1) {
+      // 大于才是有
+      let film=state.filmsCard[index];
+      if (film.filmNum>1) {
+         // 减一
+        film.filmNum--;
+      } else {
+        // 删除
+        state.filmsCard.splice(index,1);
+      }
+    }
+    //最后将数据写入到localsrorage
+    localStorage.setItem('filmsCard',JSON.stringify(state.filmsCard));
   }
   },
   //做异操作的时候要用到
