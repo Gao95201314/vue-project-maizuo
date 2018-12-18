@@ -2,10 +2,10 @@
   <div class="center-view">
     <header id="header">
       <div class="tou">
-        <i class="iconfont icon-filedicon_my_green_"></i>
+        <i class="iconfont icon-shu1"></i>
       </div>
       <h2>
-        <a href="./login.html">立即登录</a>
+        <router-link to="/user/login">立即登录</router-link>
       </h2>
     </header>
     <main id="main">
@@ -15,14 +15,14 @@
           <span>电影订单</span>
         </h3>
         <h3>
-          <i class="iconfont icon-pintuandingdan" style="color: greenyellow;;"></i>
+          <i class="iconfont icon-pintuan" style="color: greenyellow;;"></i>
           <span>拼团订单</span>
         </h3>
       </div>
       <div class="ul">
         <router-link tag="div" class="card" to="/user/card">
           <div class="list">
-            <i style="color: rgb(245, 89, 89);" class="iconfont icon-qia01"></i>
+            <i style="color: rgb(245, 89, 89);" class="iconfont icon-ziyuan"></i>
             <span>卖座卡</span>
           </div>
           <div class="list1">
@@ -41,7 +41,7 @@
         </router-link>
         <router-link class="set" tag="div" to="/user/set">
           <div class="list">
-            <i style="color: rgb(15, 235, 52);" class="iconfont icon-shezhi2"></i>
+            <i style="color: rgb(15, 235, 52);" class="iconfont icon-shezhi"></i>
             <span>设置</span>
           </div>
           <div class="list1">
@@ -76,13 +76,12 @@ export default {
     height: px2rem(67);
     width: px2rem(67);
     border: px2rem(2) solid white;
-    background: #ccc;
     border-radius: 50%;
     align-self: center;
     margin-left: px2rem(20);
     .iconfont {
       font-size: px2rem(60);
-      color: white;
+      color:turquoise;
     }
   }
   h2 {
@@ -114,7 +113,7 @@ export default {
       }
       span {
         font-size: px2rem(20);
-        color: #ccc;
+        color:block;
       }
     }
   }

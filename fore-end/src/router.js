@@ -92,7 +92,7 @@ const router = new VueRouter({
           path:'card',
           component: () => import('./views/Card.vue'),
           beforeEnter (to,from,next) {
-            if (localStorage.getItem('username')) {
+            if (localStorage.getItem('userphone')) {
               next();
             } else {
               // 注意，如果需要实现，拦截到登陆页面之后，登录成功回跳到那个页面。
@@ -109,7 +109,7 @@ const router = new VueRouter({
           path:'account',
           component: () => import('./views/Account.vue'),
           beforeEnter (to,from,next) {
-            if (localStorage.getItem('username')) {
+            if (localStorage.getItem('userphone')) {
               next();
             } else {
               // 注意，如果需要实现，拦截到登陆页面之后，登录成功回跳到那个页面。
@@ -126,7 +126,7 @@ const router = new VueRouter({
           path:'set',
           component: () => import('./views/Set.vue'),
           beforeEnter (to,from,next) {
-            if (localStorage.getItem('username')) {
+            if (localStorage.getItem('userphone')) {
               next();
             } else {
               // 注意，如果需要实现，拦截到登陆页面之后，登录成功回跳到那个页面。

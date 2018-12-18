@@ -43,14 +43,26 @@ export default {
           }
         }).then(res => {
           var result=res.data;
-          if (result.phone===this.phoneInput&&result.code===this.codeInput) {
-            localStorage.setItem('username','张三');
+          console.log(result);
+          let index=-1;
+          let isZai=result.some((item,i) => {
+            if (this.phoneInput===item.phone) {
+              index=i;
+              return true;
+            }
+            return false;
+          })
+          console.log(index);
+          if (isZai) {
+            if (result[index].code===this.codeInput) {
+            localStorage.setItem('userphone',this.phoneInput);
             // var myNeedPage = localStorage.getItem('myNeedPage')
             //this.$router.push(redirect);
             let redirect = this.$route.query.redirect;
             this.$router.push(redirect);
           } else {
             console.log('手机号或验证码错误');
+          }
           }
         })
       }

@@ -8,7 +8,7 @@
       <div class="col">
         <div class="film-name">
           <span class="name">{{films.name}}</span>
-          <span class="item">3D</span>
+          <span class="item">{{films.filmType&& films.filmType.name}}</span>
         </div>
         <div class="film-grade">
           <span class="grade">{{films.grade}}</span>
@@ -76,7 +76,7 @@ export default {
             let filmObj=result[index];
             this.films=filmObj;
             this.actorList=filmObj.actors;
-            console.log(this.actorList);
+            console.log(this.films);
           }
         });
     },
@@ -178,15 +178,14 @@ export default {
     }
   }
   .list {
-    width: px2rem(750);
+    width: px2rem(350);
     h2{
     margin-left:px2rem(10);
     }
     ul{
-      width: px2rem(750);
-      overflow:auto;
+      width: px2rem(375);
     li{
-    margin-top:px2rem(10);
+    margin:px2rem(10) 0;
     float:left;
   }
     }
