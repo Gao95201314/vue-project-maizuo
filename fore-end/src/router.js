@@ -17,153 +17,172 @@ import 'nprogress/nprogress.css';
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  routes: [
-    {
-      path: '/',
-      component: () => import('./views/Home'),
-      children: [
-        {
-          path:'',
-          redirect:'/films/nowPlaying'
+    routes: [{
+            path: '/',
+            component: () =>
+                import ('./views/Home'),
+            children: [{
+                    path: '',
+                    redirect: '/films/nowPlaying'
+                },
+                {
+                    // 首页
+                    path: 'films',
+                    component: () =>
+                        import ('./views/Films.vue'),
+                    children: [{
+                            path: '',
+                            redirect: '/films/nowPlaying'
+                        },
+                        {
+                            path: 'nowPlaying',
+                            name: 'nowPlaying',
+                            component: () =>
+                                import ('./components/NowPlay/index.vue')
+                        },
+                        {
+                            path: 'comingSoon',
+                            name: 'comingSoon',
+                            component: () =>
+                                import ('./components/SoonPlay/index.vue')
+                        }
+                    ]
+                },
+                {
+                    // 影院页
+                    path: 'cinemas',
+                    name: 'cinemas',
+                    component: () =>
+                        import ('./views/Cinema')
+                },
+                {
+                    // 购物车
+                    path: 'shopcart',
+                    name: 'shopcart',
+                    component: () =>
+                        import ('./views/Shopcard')
+                },
+                {
+                    // 个人中心页
+                    path: 'center',
+                    name: 'center',
+                    component: () =>
+                        import ('./views/Center.vue')
+                }
+            ]
         },
         {
-          // 首页
-          path: 'films',
-          component: () => import('./views/Films.vue'),
-          children: [
-            {
-              path:'',
-              redirect:'/films/nowPlaying'
-            },
-            {
-              path: 'nowPlaying',
-              name: 'nowPlaying',
-              component: () => import('./components/NowPlay/index.vue')
-            },
-            {
-              path: 'comingSoon',
-              name: 'comingSoon',
-              component: () => import('./components/SoonPlay/index.vue')
+            // 详情页面
+            path: '/filmDetail/:filmId',
+            name: 'filmDetail',
+            component: () =>
+                import ('./views/FilmDetail.vue'),
+            brforeEnter(to, from, next) {
+                console.log('我是一个路由独享的钩子函数');
+                next();
             }
-          ]
         },
         {
-          // 影院页
-          path: 'cinemas',
-          name: 'cinemas',
-          component: () => import('./views/Cinema')
+            //影城搜索
+            path: '/search',
+            name: 'search',
+            component: () =>
+                import ('./views/Search.vue')
         },
         {
-          // 购物车
-          path: 'shopcart',
-          name: 'shopcart',
-          component: () => import('./views/Shopcard')
+            //选择城市页面
+            path: '/city',
+            name: 'city',
+            component: () =>
+                import ('./views/City.vue')
         },
         {
-          // 个人中心页
-          path: 'center',
-          name: 'center',
-          component: () => import('./views/Center.vue')
-        }
-      ]
-    },
-    {
-      // 详情页面
-      path: '/filmDetail/:filmId',
-      name: 'filmDetail',
-      component: () => import('./views/FilmDetail.vue'),
-      brforeEnter (to,from,next) {
-        console.log('我是一个路由独享的钩子函数');
-        next();
-      }
-    },
-    {
-      //选择城市页面
-      path:'/city',
-      name:'city',
-      component: () => import('./views/City.vue')
-    },
-    {
-      //用户
-      path:'/user',
-      component: {
-        template:`
+            //用户
+            path: '/user',
+            component: {
+                template: `
         <div>
            <router-view></router-view>
         </div>
         `
-      },
-      children: [
-        {
-          path:'card',
-          component: () => import('./views/Card.vue'),
-          beforeEnter (to,from,next) {
-            if (localStorage.getItem('userphone')) {
-              next();
-            } else {
-              // 注意，如果需要实现，拦截到登陆页面之后，登录成功回跳到那个页面。
-              //localStorage.setItem('myNeedPage','/user/card');
-              next({path:'/user/login', 
-              query: {
-                redirect:to.fullPath
-              }
-            });
-            }
-          }
+            },
+            children: [{
+                    path: 'card',
+                    component: () =>
+                        import ('./views/Card.vue'),
+                    beforeEnter(to, from, next) {
+                        if (localStorage.getItem('userphone')) {
+                            next();
+                        } else {
+                            // 注意，如果需要实现，拦截到登陆页面之后，登录成功回跳到那个页面。
+                            //localStorage.setItem('myNeedPage','/user/card');
+                            next({
+                                path: '/user/login',
+                                query: {
+                                    redirect: to.fullPath
+                                }
+                            });
+                        }
+                    }
+                },
+                {
+                    path: 'account',
+                    component: () =>
+                        import ('./views/Account.vue'),
+                    beforeEnter(to, from, next) {
+                        if (localStorage.getItem('userphone')) {
+                            next();
+                        } else {
+                            // 注意，如果需要实现，拦截到登陆页面之后，登录成功回跳到那个页面。
+                            //localStorage.setItem('myNeedPage','/user/card');
+                            next({
+                                path: '/user/login',
+                                query: {
+                                    redirect: to.fullPath
+                                }
+                            });
+                        }
+                    }
+                },
+                {
+                    path: 'set',
+                    component: () =>
+                        import ('./views/Set.vue'),
+                    beforeEnter(to, from, next) {
+                        if (localStorage.getItem('userphone')) {
+                            next();
+                        } else {
+                            // 注意，如果需要实现，拦截到登陆页面之后，登录成功回跳到那个页面。
+                            //localStorage.setItem('myNeedPage','/user/card');
+                            next({
+                                path: '/user/login',
+                                query: {
+                                    redirect: to.fullPath
+                                }
+                            });
+                        }
+                    }
+                },
+                {
+                    path: 'login',
+                    component: () =>
+                        import ('./views/Login.vue')
+                },
+            ]
         },
         {
-          path:'account',
-          component: () => import('./views/Account.vue'),
-          beforeEnter (to,from,next) {
-            if (localStorage.getItem('userphone')) {
-              next();
-            } else {
-              // 注意，如果需要实现，拦截到登陆页面之后，登录成功回跳到那个页面。
-              //localStorage.setItem('myNeedPage','/user/card');
-              next({path:'/user/login', 
-              query: {
-                redirect:to.fullPath
-              }
-            });
-            }
-          }
-        },
-        {
-          path:'set',
-          component: () => import('./views/Set.vue'),
-          beforeEnter (to,from,next) {
-            if (localStorage.getItem('userphone')) {
-              next();
-            } else {
-              // 注意，如果需要实现，拦截到登陆页面之后，登录成功回跳到那个页面。
-              //localStorage.setItem('myNeedPage','/user/card');
-              next({path:'/user/login', 
-              query: {
-                redirect:to.fullPath
-              }
-            });
-            }
-          }
-        },
-        {
-          path:'login',
-          component: () => import('./views/Login.vue')    
-        },
-      ]
-    },
-    {
-      path: '*',
-      redirect: '/films/nowPlaying'
-    }
-  ]
+            path: '*',
+            redirect: '/films/nowPlaying'
+        }
+    ]
 });
 
-router.beforeEach((to,from,next) => {
-  NProgress.start();
-  next();
+router.beforeEach((to, from, next) => {
+    NProgress.start();
+    next();
 })
-router.afterEach((to,from) => {
-  NProgress.done();
-})
-// 需要暴露
+router.afterEach((to, from) => {
+        NProgress.done();
+    })
+    // 需要暴露
 export default router;
