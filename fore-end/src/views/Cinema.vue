@@ -2,20 +2,15 @@
   <div class="cinemas-list">
     <div class="header">
       <span class="ding">深圳<i class="iconfont icon-35_xiangxiajiantou"></i></span>
-      <span>影院</span>
-      <router-link class="iconfont icon-fangdajing" tag="i" to="/search"></router-link>
+      <span class="itheme">影院</span>
+      <i></i>
     </div>
-    <div class="middle">
-      <span>全城
-        <i class="iconfont icon-35_xiangxiajiantou"></i>
-      </span>
-      <span>最近去过
-        <i class="iconfont icon-35_xiangxiajiantou"></i>
-      </span>
+    <div class="search">
+    <mt-search v-model="searchText"></mt-search>
     </div>
     <div class="list" ref="wrapper">
       <div>
-      <div class="contact" v-for="(item,index) in arr" :key="index">
+      <div class="contact" v-for="(item,index) in filterList" :key="index">
         <div class="left">
           <p>{{item.name}}</p>
           <p>{{item.address}}</p>
@@ -40,11 +35,23 @@ export default {
   name: 'Cinemas',
   data () {
    return {
-     arr:[]
+     arr:[],
+     searchText:''
    }
   },
-  mounted () {
-    this.scroll = new BScroll(this.$refs.wrapper);
+   computed:{
+    filterList() {
+      var arr1=this.arr.filter(item => {
+        return item.name.indexOf(this.searchText)>-1;
+      })
+      return arr1;
+    }
+  },
+  methods:{
+    fn1 (event) {
+      var searchText=event.target.value;
+      this.searchText=searchText;
+    }
   },
   created () {
     axios.get('/static/api/cinemas.json').then((response) => {
@@ -52,6 +59,9 @@ export default {
           this.arr=result;
           // console.log(result);
         });
+  },
+  mounted () {
+    this.scroll = new BScroll(this.$refs.wrapper);
   }
 };
 </script>
@@ -61,27 +71,24 @@ export default {
 .cinemas-list {
   flex: 1;
   .header {
-    display: flex;
-    justify-content: space-around;
     line-height: px2rem(50);
     height: px2rem(50);
     span {
       font-size: px2rem(20);
     }
-    .icon-fangdajing{
-      font-size:px2rem(20);
-    }
     .ding{
       font-size: px2rem(16);
+      margin-left:px2rem(10);
+    }
+    .itheme{
+      margin-left:px2rem(100);
     }
   }
-  .middle {
-    display: flex;
-    justify-content: space-around;
-    height: px2rem(60);
-    line-height: px2rem(60);
-    border-bottom: 1px solid #ccc;
-  }
+  .search{
+  height: px2rem(72);
+  padding: px2rem(10);
+  background:white;
+}
   .list {
     overflow: hidden;
     position: absolute;

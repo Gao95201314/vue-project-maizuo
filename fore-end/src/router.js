@@ -83,13 +83,6 @@ const router = new VueRouter({
             }
         },
         {
-            //影城搜索
-            path: '/search',
-            name: 'search',
-            component: () =>
-                import ('./views/Search.vue')
-        },
-        {
             //选择城市页面
             path: '/city',
             name: 'city',

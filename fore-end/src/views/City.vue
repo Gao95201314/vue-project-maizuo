@@ -1,49 +1,249 @@
 <template>
   <div class="city">
-        <CityHeader></CityHeader>
-        <Search :list="cities"></Search>
-        <List :hot="hotCity" :letter="letter" :list="cities"></List>
+       <div class="header">
+        城市选择
+        <router-link to="/">
+            <div class="iconfont icon-zuojiantou"></div>
+        </router-link>
+    </div>
+        <div>
+        <div class="search">
+            <input v-model="keyword" class="search-input" type="text" placeholder="输入城市名或者拼音" />
+        </div>
+        <div class="search-content" ref="search" v-show="keyword">
+            <ul>
+                <li class="serach-item border-bottom" v-for="item in listItem" :key="item.id">{{item.name}}</li>
+                <li v-show="hasNoData" class="serach-item border-bottom">没有搜索到匹配的数据</li>
+            </ul>
+        </div>
+    </div>
+        <div class="list" ref="wrapper">
+        <div>
+            <div class="area">
+                <div class="title border-topbottom">当前城市</div>
+                <div class="button-list">
+                    <div class="button-wrapper">
+                        <div class="button">深圳</div>
+                    </div>
+                </div>
+            </div>
+            <div class="area">
+                <div class="title border-topbottom">热门城市</div>
+                <div class="button-list">
+                    <div class="button-wrapper" v-for="item in hotCity" :key="item.id">
+                        <div class="button">{{item.name}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="area"
+                v-for="(item,index) in sort"
+                :key="index">
+                <div class="title border-topbottom">{{item.py}}</div>
+                <ul class="item-list">
+                    <li class="item border-bottom"
+                         v-for="(item,index) in item.list"
+                          :key="index"
+                    >{{item.name}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
     </div>
 </template>
 <script>
-import CityHeader from '../components/CityHeader/cityheader.vue';
-import List from '../components/CityList/citylist.vue';
-import Search from '../components/CitySearch/citysearch.vue';
+// import List from '../components/CityList/citylist.vue';
+// import Search from '../components/CitySearch/citysearch.vue';
 import axios from 'axios';
-
+import BScroll from 'better-scroll';
 export default {
   data () {
         return {
             cities:[], // 城市列表
             hotCity:[],//热门城市
-            letter: '' // A-Z
+            letter: '',// A-Z
+            letters:[],
+            arr1:[],
+            keyword:'',
+            listItem:[],
+            timer:null
         }
-    },
-    components: {
-        CityHeader,
-        Search,
-        List,
     },
     methods:{
         getCityInfo () {
-            axios.get('/static/api/city.json').then(this.getCityInfoSucc);
+            axios.get('/static/api/city.json').then(response => {
+                response = response.data;
+                this.hotCity = response.hotCities;
+                this.cities = response.cities;
+                let hash={};//用来记录某个拼音首字母是否存在
+                let i=0;// 用来记录某个拼音首字母的下标
+                var res=[];// 最终需要得到的数据
+                this.cities.forEach(item => {
+                    let py=item.pinyin.substring(0,1).toUpperCase();
+                    if (hash[py]) {
+                        //存在
+                        res[hash[py]-1].list.push(item);
+                    } else {
+                        //写入hash
+                        hash[py]=++i;
+                        //不存在
+                        res.push({
+                            py:py,
+                            list:[item]
+                        })
+                    }
+                });
+                this.arr1=res;
+                // console.log(this.arr1);
+            });
         },
-        getCityInfoSucc (res) {
-                res = res.data;
-                this.hotCity = res.hotCities;
-                this.cities = res.cities;
-                // console.log(this.cities);
+    },
+    created () {
+     this.getCityInfo();
+    },
+    watch: {
+        keyword () {
+            if (this.timer) {
+                clearTimeout(this.timer);
+            }
+            if (!this.keyword) { //清空
+                this.listItem = '';
+                return;
+            }
+            this.timer=setTimeout(() => {
+                const result=[];
+                this.arr1.forEach((item,i) => {
+                        if (item.pinyin.indexOf(this.keyword)>-1 || item.name.indexOf(this.keyword)>-1) {
+                            result.push(item);
+                        }
+                })
+                this.listItem=result;
+            },100)
         }
     },
-    mounted () {
-        this.getCityInfo();
-    }
+    computed:{
+        hasNoData () {
+            return !this.listItem.length;//没有搜索的条件是否显示
+        },
+        sort:function() {
+              return sortByKey(this.arr1,'py');
+          }
+    },
+     mounted () {
+        this.scroll = new BScroll(this.$refs.wrapper);
+    },
+}
+function sortByKey (array,key) {
+    return array.sort (function(a,b) {
+        var x = a[key];
+        var y = b[key];
+        return ((x<y)?-1:((x>y)?1:0));
+    })
 }
 </script>
-<style>
+<style lang="scss">
 @import '../styles/common/px2rem.scss';
 .city{
   flex:1;
-  background: red;
+  .header{
+  overflow: hidden;
+  height:px2rem(50);
+  line-height: px2rem(50);
+  text-align: center;
+  color: block;
+  font-size: px2rem(18);
+  .icon-zuojiantou{
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: px2rem(20);
+    text-align: center;
+    color: block;
+  }
+}
+.search{
+  height: px2rem(72);
+  padding: px2rem(10);
+  background:white;
+  .search-input{
+    box-sizing: border-box;
+    width:100%;
+    height: px2rem(50);
+    line-height: px2rem(62);
+    text-align: center;
+    border-radius: px2rem(6);
+    padding: px2rem(10);
+    color: #666;
+   }
+}
+.search-content {
+  z-index: 1;
+  overflow:hidden;
+  position:absolute;
+  top: px2rem(100);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #eee;
+  .serach-item{
+    line-height: px2rem(62);
+    padding-left:px2rem(2);
+    color:#666;
+    background: #fff;
+  }
+}
+.border-topbottom{
+    &:before{
+      background: white;
+    }
+    &:after{
+      background:white;
+    }
+}
+.border-bottom{
+    &:before{
+      background: white;
+    }
+}
+.list{
+  overflow: hidden;
+  position:absolute;
+  top:px2rem(140);
+  left:0;
+  right:0;
+  bottom:0;
+  .title{
+    line-height: px2rem(54);
+    background: #eee;
+    padding-left: px2rem(2);
+    color: #666;
+    font-size: px2rem(26);
+  }
+  .button-list{
+    overflow:hidden;
+    padding: px2rem(1) px2rem(6) px2rem(1) px2rem(1);
+    .button-wrapper{
+      float:left;
+      width:33.33%;
+      .button{
+        margin:px2rem(1);
+        text-align: center;
+        height:px2rem(30);
+        line-height:px2rem(30);
+        border-radius: px2rem(6);
+        font-size: px2rem(20);
+      }
+    }
+  }
+  .item-list{
+    .item{
+      line-height: px2rem(76);
+      color:#212121;
+      padding-left: px2rem(2);
+      font-size:px2rem(20);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
 }
 </style>
