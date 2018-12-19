@@ -28,10 +28,10 @@
    </div>
    <!-- 轮播图 -->
    <!-- 定位城市 -->
-   <div class="city-fixed">
+   <router-link class="city-fixed" to="/city" tag="div">
       <span>{{ curCity }}</span>
       <i class="iconfont icon-xiajiantou"></i>
-    </div>
+    </router-link>
    <!-- 定位城市 -->
     </div>
 </template>

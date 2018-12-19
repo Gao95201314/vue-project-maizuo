@@ -78,6 +78,12 @@ const router = new VueRouter({
       }
     },
     {
+      //选择城市页面
+      path:'/city',
+      name:'city',
+      component: () => import('./views/City.vue')
+    },
+    {
       //用户
       path:'/user',
       component: {
