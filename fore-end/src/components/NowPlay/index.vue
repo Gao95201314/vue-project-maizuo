@@ -25,9 +25,10 @@
               <span class="label">{{ item.nation }} | {{ item.runtime }}分钟</span>
             </div>
           </div>
-          <button @click.stop="reduceFilm(item)">-</button>
+          <!-- <button @click.stop="reduceFilm(item)">-</button>
           <input type="text" disabled :value="findNum(item)">
-          <button @click.stop="addFilm(item)">+</button>
+          <button @click.stop="addFilm(item)">+</button> -->
+          <div class="buy" @click.stop="addFilm(item)">购票</div>
         </li>
       </ul>
       <div class="load-more" @click="loadMore">{{loadMoreText}}</div>
@@ -125,6 +126,12 @@ export default {
          }
        })
      },
+  /*    addFilm (item) {
+       let userphone = localStorage.getItem('userphone');
+       if (!userphone) {
+         this.$router.push('/user/login');
+       }
+     }, */
      /**
      * 查找当前这个电影，在购物车中的数量
      * @param {Object} item 当前电影
@@ -207,7 +214,20 @@ export default {
       color: #ffb232;
     }
   }
-  input{
+  .buy {
+    flex-shrink: 0;
+    align-self: center;
+    width: px2rem(50);
+    height: px2rem(26);
+    line-height: px2rem(26);
+    font-size: px2rem(14);
+    color: #ff5f16;
+    border: px2rem(1) solid #ff5f16;
+    text-align: center;
+    border-radius: px2rem(4);
+  }
+}
+ /*  input{
     width: px2rem(50);
     line-height: px2rem(50);
     height: px2rem(48);
@@ -226,7 +246,7 @@ export default {
     text-align: center;
     border-radius: px2rem(4);
   }
-}
+} */
 .load-more{
   height:px2rem(30);
   line-height:px2rem(30);

@@ -60,7 +60,21 @@ const router = new VueRouter({
                     path: 'shopcart',
                     name: 'shopcart',
                     component: () =>
-                        import ('./views/Shopcard')
+                        import ('./views/ShopCart'),
+                    beforeEnter(to, from, next) {
+                        if (localStorage.getItem('userphone')) {
+                            next();
+                        } else {
+                            // 注意，如果需要实现，拦截到登陆页面之后，登录成功回跳到那个页面。
+                            //localStorage.setItem('myNeedPage','/user/card');
+                            next({
+                                path: '/user/login',
+                                query: {
+                                    redirect: to.fullPath
+                                }
+                            });
+                        }
+                    }
                 },
                 {
                     // 个人中心页

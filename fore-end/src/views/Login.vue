@@ -59,7 +59,11 @@ export default {
             // var myNeedPage = localStorage.getItem('myNeedPage')
             //this.$router.push(redirect);
             let redirect = this.$route.query.redirect;
-            this.$router.push(redirect);
+            if (redirect) {
+              this.$router.push(redirect);
+            } else {
+              this.$router.push('/');
+            }
           } else {
             console.log('手机号或验证码错误');
           }
