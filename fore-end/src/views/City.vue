@@ -23,15 +23,15 @@
                 <div class="title border-topbottom">当前城市</div>
                 <div class="button-list">
                     <div class="button-wrapper">
-                        <div class="button">深圳</div>
+                        <div class="button">{{cityName}}</div>
                     </div>
                 </div>
             </div>
-            <div class="area">
-                <div class="title border-topbottom">热门城市</div>
-                <div class="button-list">
-                    <div class="button-wrapper" v-for="item in hotCity" :key="item.id">
-                        <div class="button">{{item.name}}</div>
+            <div class="hot">
+                <div class="title border-topbottom hotcity">热门城市</div>
+                <div class="button-list1">
+                    <div class="button-wrapper1" v-for="item in hotCity" :key="item.id">
+                        <div class="button1">{{item.name}}</div>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                 <ul class="item-list">
                     <li class="item border-bottom"
                          v-for="(item,index) in item.list"
-                          :key="index"
+                          :key="index" @click="changeCity(item)"
                     >{{item.name}}</li>
                 </ul>
             </div>
@@ -58,6 +58,7 @@ import BScroll from 'better-scroll';
 export default {
   data () {
         return {
+            cityName:'深圳',
             cities:[], // 城市列表
             hotCity:[],//热门城市
             letter: '',// A-Z
@@ -96,10 +97,36 @@ export default {
                 // console.log(this.arr1);
             });
         },
+        changeCity (item) {
+          let cityId=item.cityId;
+          let index1=-1;
+          let index2=-1;
+          this.arr1.forEach((item,i1) => {
+            index1=i1;
+            item.list.forEach((item,i2) => {
+              if (cityId===item.cityId) {
+                index2=i2
+              }
+            })
+          })
+          if (index2>-1) {
+            let cityname=this.arr1[index1].list[index2].name;
+            this.cityName=cityname;
+          }
+        }
     },
     created () {
      this.getCityInfo();
     },
+    computed:{
+        hasNoData () {
+            return !this.listItem.length;//没有搜索的条件是否显示
+        },
+        sort:function() {
+              return sortByKey(this.arr1,'py');
+          }
+    },
+    //城市搜索
     watch: {
         keyword () {
             if (this.timer) {
@@ -112,21 +139,15 @@ export default {
             this.timer=setTimeout(() => {
                 const result=[];
                 this.arr1.forEach((item,i) => {
-                        if (item.pinyin.indexOf(this.keyword)>-1 || item.name.indexOf(this.keyword)>-1) {
-                            result.push(item);
+                    item.list.forEach((value,i) => {
+                      if (value.pinyin.indexOf(this.keyword)>-1 || value.name.indexOf(this.keyword)>-1) {
+                            result.push(value);
                         }
+                    })
                 })
                 this.listItem=result;
             },100)
         }
-    },
-    computed:{
-        hasNoData () {
-            return !this.listItem.length;//没有搜索的条件是否显示
-        },
-        sort:function() {
-              return sortByKey(this.arr1,'py');
-          }
     },
      mounted () {
         this.scroll = new BScroll(this.$refs.wrapper);
@@ -179,7 +200,7 @@ function sortByKey (array,key) {
   z-index: 1;
   overflow:hidden;
   position:absolute;
-  top: px2rem(100);
+  top: px2rem(120);
   left: 0;
   right: 0;
   bottom: 0;
@@ -211,6 +232,20 @@ function sortByKey (array,key) {
   left:0;
   right:0;
   bottom:0;
+  .hot{
+  .button-list1{
+    .button-wrapper1{
+      .button1{
+      line-height: px2rem(76);
+      color:#212121;
+      padding-left: px2rem(2);
+      font-size:px2rem(20);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      }
+    }
+  }
+  }
   .title{
     line-height: px2rem(54);
     background: #eee;
