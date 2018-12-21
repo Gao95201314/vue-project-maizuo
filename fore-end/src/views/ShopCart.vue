@@ -7,7 +7,7 @@
     <!-- 购物车列表 -->
     <div class="wrap" ref="wrapper">
       <div>
-    <div class="cartitems" v-for="(item,index) in CartInfo" :key="index">
+    <div class="cartitems" v-for="(item,index) in filmsCard" :key="index">
       <div class="left">
         <span>{{item.filmName}}影片</span>
         <p class="price">￥<span>{{item.filmPrice}}</span></p>
@@ -52,15 +52,8 @@ export default {
   methods:{
     ...mapMutations([
       'addFilm',
-      'reduceFilm',
-      'delSingle'
+      'reduceFilm'
     ]),
-    //获取localStorage中存储的数据
-    getShopCartInfo () {
-      let shopCartInfo=localStorage.getItem('filmsCard');
-      this.CartInfo=JSON.parse(shopCartInfo);
-      console.log(this.CartInfo);
-    },
     /**
      * 查找当前这个电影，在购物车中的数量
      * @param {Object} item 当前电影
@@ -76,7 +69,7 @@ export default {
       });
       return num;
     },
-    /* //删除单个电影
+    //删除单个电影
     delSingle (item) {
         let filmId = item.filmId;
         let index = -1;
@@ -89,7 +82,8 @@ export default {
             this.filmsCard.splice(index, 1);
         }
         localStorage.setItem('filmsCard', JSON.stringify(this.filmsCard));
-    } */
+        // this.getShopCartInfo ();
+    },
     /* //计算单个电影的总价
     getSinglePrice (item) {
       let filmId=item.filmId;
@@ -102,12 +96,10 @@ export default {
       return price;
     }, */
   },
-  created () {
-    this.getShopCartInfo();
-  },
    mounted () {
     this.scroll = new BScroll(this.$refs.wrapper);
-  }
+  },
+
 }
 </script>
 <style lang="scss">

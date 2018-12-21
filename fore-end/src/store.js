@@ -34,9 +34,6 @@ const store = new Vuex.Store({
              * @param {Object} state 就是当前 store实例的 state 属性
              * @param {Object} payload 参数 负载
              */
-            changeCurCity(state, payload) {
-                state.curCity = payload.quName;
-            },
             // 添加电影
             addFilm(state, payload) {
                 let filmId = payload.filmId;
@@ -97,7 +94,7 @@ const store = new Vuex.Store({
                 localStorage.setItem('filmsCard', JSON.stringify(state.filmsCard));
             },
             //删除单个电影
-            delSingle(state, payload) {
+            /* delSingle(state, payload) {
                 let filmId = payload.filmId;
                 let index = -1;
                 state.filmsCard.forEach((item, i) => {
@@ -109,7 +106,7 @@ const store = new Vuex.Store({
                     state.filmsCard.splice(index, 1);
                 }
                 localStorage.setItem('filmsCard', JSON.stringify(state.filmsCard));
-            }
+            } */
         },
         //做异操作的时候要用到
         actions: {
