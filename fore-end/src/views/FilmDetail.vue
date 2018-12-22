@@ -2,13 +2,14 @@
 <div class="main">
   <div class="film-detail">
     <div class="film-poster">
+       <router-link class="iconfont icon-xiayibu" tag="i" to="/"></router-link>
       <img :src="films.poster" alt="">
     </div>
     <div class="film-detail">
       <div class="col">
         <div class="film-name">
           <span class="name">{{films.name}}</span>
-          <span class="item">{{films.filmType&& films.filmType.name}}</span>
+          <span class="item">{{films.filmType && films.filmType.name}}</span>
         </div>
         <div class="film-grade">
           <span class="grade">{{films.grade}}</span>
@@ -99,6 +100,11 @@ export default {
   overflow-y: auto;
   .film-poster {
     height: px2rem(210);
+    .icon-xiayibu{
+      position: absolute;
+      left:0;
+      font-size:px2rem(24);
+    }
     img {
       width: 100%;
       height: 100%;

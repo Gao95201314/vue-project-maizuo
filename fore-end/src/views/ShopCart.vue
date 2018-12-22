@@ -38,7 +38,6 @@ export default {
   name:'Shopcart',
   data () {
     return {
-      CartInfo:localStorage.getItem('filmsCard') ? JSON.parse(localStorage.getItem('filmsCard')) : [],
     }
   },
   computed:{
