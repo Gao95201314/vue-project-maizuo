@@ -93,6 +93,24 @@ const store = new Vuex.Store({
                 //最后将数据写入到localsrorage
                 localStorage.setItem('filmsCard', JSON.stringify(state.filmsCard));
             },
+            changeCity(state,payload){
+              let cityId = payload.cityId;
+              let index1 = -1;
+              let index2 = -1;
+              console.log(this.sort);
+              this.sort.forEach((item, i1) => {
+                index1 = i1;
+                item.list.forEach((value, i2) => {
+                  if (cityId === value.cityId) {
+                    index2 = i2;
+                  }
+                });
+              });
+              if (index2 > -1) {
+                let cityname = this.sort[index1].list[index2].name;
+                this.cityName = cityname;
+              }
+            }
             //删除单个电影
             /* delSingle(state, payload) {
                 let filmId = payload.filmId;

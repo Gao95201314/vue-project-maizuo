@@ -54,8 +54,6 @@
   </div>
 </template>
 <script>
-// import List from '../components/CityList/citylist.vue';
-// import Search from '../components/CitySearch/citysearch.vue';
 import axios from 'axios';
 import BScroll from 'better-scroll';
 export default {
